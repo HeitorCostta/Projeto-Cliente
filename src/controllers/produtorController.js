@@ -4,12 +4,7 @@ const produtorModel = require("../models/produtorModel");
 async function getAll(req, res) {
   try {
     const produtores = await produtorModel.getAll();
-    const lista = produtores.map((valor, index) => ({
-      id: valor.id,
-      nomeProdutor: valor.nomeProdutor,
-      posicao: index + 1
-    }));
-    return res.status(200).json(lista);
+   return res.status(200).json(produtores);;
   } catch (error) {
     console.error(error);
     return res.status(500).json({ mensagem: "Erro ao listar produtores" });

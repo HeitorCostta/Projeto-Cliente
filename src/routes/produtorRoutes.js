@@ -2,6 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const produtorController = require("../controllers/produtorController");
+const authMiddleware = require("../middlewares/authMiddleware");
 
 // Listar todos os produtores
 router.get("/", produtorController.getAll);
@@ -10,12 +11,12 @@ router.get("/", produtorController.getAll);
 router.get("/:id", produtorController.getById);
 
 // Criar um novo produtor
-router.post("/", produtorController.create);
+router.post("/", authMiddleware, produtorController.create);
 
 // Atualizar produtor
-router.put("/:id", produtorController.update);
+router.put("/:id",authMiddleware, produtorController.update);
 
 // Deletar produtor
-router.delete("/:id", produtorController.remove);
+router.delete("/:id",authMiddleware, produtorController.remove);
 
 module.exports = router;

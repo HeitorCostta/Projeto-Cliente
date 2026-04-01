@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="logo-container">
+  <img src="img/logo.png" alt="Logo">
+</div>
+
+  <h2>🌾 Sistema de Produtores</h2>
+
+<div class="top-bar">
+  <button onclick="abrirModalCreate()">+ Novo Produtor</button>
+  <button onclick="logout()" class="btn-logout">Sair</button>
+</div>
+
+<div class="filtro">
+  <input type="text" id="filtroNome" placeholder="Buscar por nome">
+  <input type="text" id="filtroCidade" placeholder="Buscar por cidade">
+</div>
+
+  <ul id="lista"></ul>
+
+  <!-- 🔍 MODAL DETALHES -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="fecharModal()">&times;</span>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- ✏️ MODAL EDITAR -->
+  <div id="modalEdit" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="fecharModalEdit()">&times;</span>
+
+      <h3>Editar Produtor</h3>
+
+      <form id="formEdit">
+        <input type="text" id="editNome" placeholder="Nome"><br><br>
+        <input type="text" id="editPropriedade" placeholder="Propriedade"><br><br>
+        <input type="text" id="editCidade" placeholder="Cidade"><br><br>
+        <input type="text" id="editEstado" placeholder="Estado"><br><br>
+        <input type="text" id="editCultura" placeholder="Cultura"><br><br>
+        <input type="number" id="editArea" placeholder="Área"><br><br>
+        <input type="text" id="editTelefone" placeholder="Telefone"><br><br>
+        <input type="email" id="editEmail" placeholder="Email"><br><br>
+        <textarea id="editObs" placeholder="Observações"></textarea><br><br>
+
+        <button type="submit">Salvar</button>
+      </form>
+
+    </div>
+  </div>
+  <!-- ➕ MODAL CRIAR -->
+<div id="modalCreate" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="fecharModalCreate()">&times;</span>
+
+    <h3>Novo Produtor</h3>
+
+    <form id="formCreate">
+      <input type="text" id="createNome" placeholder="Nome"><br><br>
+      <input type="text" id="createPropriedade" placeholder="Propriedade"><br><br>
+      <input type="text" id="createCidade" placeholder="Cidade"><br><br>
+      <input type="text" id="createEstado" placeholder="Estado"><br><br>
+      <input type="text" id="createCultura" placeholder="Cultura"><br><br>
+      <input type="number" id="createArea" placeholder="Área"><br><br>
+      <input type="text" id="createTelefone" placeholder="Telefone"><br><br>
+      <input type="email" id="createEmail" placeholder="Email"><br><br>
+      <textarea id="createObs" placeholder="Observações"></textarea><br><br>
+
+      <button type="submit">Cadastrar</button>
+    </form>
+
+  </div>
+</div>
+
+
+  <script src="js/dashboard.js"></script>
+
+</body>
+</html>
