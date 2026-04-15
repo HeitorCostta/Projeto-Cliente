@@ -1,24 +1,37 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login AgroFerreira</title>
+    <link rel="stylesheet" href="css/styleLogin.css">
 </head>
 <body>
 
-  <h2>Login</h2>
+    <div class="main-login-wrapper">
 
-  <form id="loginForm">
-    <input type="text" id="username" placeholder="Usuário" required />
-    <br><br>
-    <input type="password" id="password" placeholder="Senha" required />
-    <br><br>
-    <button type="submit">Entrar</button>
-  </form>
+        <img src="./img/logo.jpeg" alt="Logo AgroFerreira" class="logo-sobreposta">
 
-  <p id="erro" style="color: red;"></p>
+        <div class="login-card">
+            <h2>Login</h2>
 
-  <script src="js/login.js"></script>
+            <form id="loginForm">
+                <div class="input-group">
+                    <input type="text" id="username" placeholder="Usuário" required />
+                </div>
+                
+                <div class="input-group">
+                    <input type="password" id="password" placeholder="Senha" required />
+                </div>
 
+                <button type="submit">Entrar</button>
+            </form>
+
+            <p id="erro"></p>
+        </div>
+
+    </div>
+
+    <script src="js/login.js"></script>
 </body>
 </html>

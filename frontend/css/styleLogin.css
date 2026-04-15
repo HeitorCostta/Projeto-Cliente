@@ -1,0 +1,121 @@
+/* Reset básico de margens e preenchimentos, definindo a fonte global */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    /* Fundo verde com um degradê suave para dar profundidade */
+    background: linear-gradient(135deg, #afc9ac 0%, #3d7a4f 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Ocupa toda a altura da tela */
+}
+
+/* Container que segura o logo e o card juntos na vertical */
+.main-login-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza horizontalmente o logo e o card */
+    width: 100%;
+    max-width: 400px; /* Largura máxima do conjunto para não ficar gigante em telas grandes */
+    padding: 20px;
+}
+
+/* --- ESTILO DA LOGO SOBREPOSTA --- */
+.logo-sobreposta {
+    /* Mantém a logo branca original */
+    background-color: #ffffff;
+    
+    /* Cria o formato circular e a sombra para dar efeito de relevo */
+    border-radius: 50%;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Sombra suave para o relevo */
+    border: 4px solid #ffffff; /* Borda branca para destacar do fundo verde */
+
+    /* Controla o tamanho e a proporção da logo */
+    width: 120px;
+    height: 120px;
+    object-fit: contain; /* Garante que a logo não seja esticada */
+    padding: 15px; /* Espaço interno para a logo não encostar na borda */
+
+    /* POSICIONAMENTO MÁGICO: Eleva a logo para fundir com o card */
+    margin-bottom: -60px; /* Move a logo 60px para BAIXO, sobrepondo o topo do card */
+    z-index: 10; /* Garante que a logo fique ACIMA do card */
+}
+
+/* --- O CARD DE LOGIN (FUNDIDO) --- */
+.login-card {
+    background-color: #ffffff;
+    padding: 100px 40px 40px 40px; /* Aumentamos o padding superior (100px) para acomodar a logo sobreposta */
+    border-radius: 20px; /* Cantos mais arredondados para um visual moderno */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+    width: 100%;
+    position: relative; /* Necessário para o z-index da logo funcionar */
+}
+
+/* Título de Login dentro do card */
+h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid #eee;
+    border-radius: 10px; /* Cantos arredondados nos inputs */
+    outline: none;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+/* Efeito de foco nos inputs: borda brilha em verde */
+input:focus {
+    border-color: #58af71;
+    background-color: #f9fffb;
+    box-shadow: 0 0 8px rgba(88, 175, 113, 0.2);
+}
+
+/* Botão de Entrar */
+button {
+    width: 100%;
+    padding: 14px;
+    background-color: #58af71; /* Cor verde principal */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #468c5a; /* Tom de verde mais escuro no hover */
+    transform: translateY(-2px); /* Efeito de elevação suave */
+}
+
+button:active {
+    transform: translateY(1px); /* Efeito de clique */
+}
+
+#erro {
+    margin-top: 15px;
+    font-size: 14px;
+    text-align: center;
+    color: #e74c3c; /* Vermelho para mensagens de erro */
+    min-height: 20px;
+}

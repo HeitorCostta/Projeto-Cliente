@@ -1,132 +1,296 @@
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f6f8;
-  margin: 0;
-  padding: 20px;
+* {
+  box-sizing: border-box;
 }
 
+body {
+  font-family: 'Inter', sans-serif;
+  background: #9fd3ac;
+  margin: 0;
+}
+
+/* HEADER */
 h2 {
   text-align: center;
-  margin-bottom: 10px;
+  margin: 20px 0;
+  color: #1e272e;
 }
 
+/* TOPO */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 30px 20px;
+}
+
+/* BOTÕES */
 button {
-  cursor: pointer;
-  padding: 6px 12px;
   border: none;
-  border-radius: 6px;
-  background-color: #007bff;
-  color: white;
-  margin-right: 5px;
-}
-
-button {
-  margin-right: 5px;
-}
-
-button:nth-child(2) {
-  background-color: #28a745; /* editar */
-}
-
-button:nth-child(3) {
-  background-color: #dc3545; /* deletar */
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.2s ease;
 }
 
 button:hover {
-  background-color: #0056b3;
+  transform: scale(1.05);
+  opacity: 0.9;
 }
 
+.btn-primary { background: #3b82f6; color: white; }
+.btn-success { background: #22c55e; color: white; }
+.btn-danger { background: #ef4444; color: white; }
+.btn-warning { background: #f59e0b; color: white; }
+.btn-dark { background: #374151; color: white; }
+
+/* FILTROS */
+.filtro {
+  display: flex;
+  gap: 15px;
+  padding: 0 30px 20px;
+}
+
+
+.filtro input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+.filtro input {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #dcdde1;
+  background: white;
+}
+
+/* LISTA */
 #lista {
   list-style: none;
-  padding: 0;
-  max-width: 800px;
-  margin: 20px auto;
+  padding: 0 30px;
 }
 
+/* CARD */
 .card {
   background: white;
-  padding: 15px;
-  margin-bottom: 10px;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-.card strong {
-  font-size: 20px;
-  color: #333;
-}
-
-.card button {
-  margin-top: 10px;
-}
-
-.card:hover {
-  transform: scale(1.02);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.06);
   transition: 0.2s;
 }
 
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.5);
+.card:hover {
+  transform: translateY(-3px);
 }
 
-.modal-content {
-  background: white;
-  margin: 10% auto;
-  padding: 20px;
-  width: 400px;
-  border-radius: 10px;
-  position: relative;
-}
-
-.close {
-  position: absolute;
-  right: 10px;
-  top: 5px;
-  font-size: 22px;
-  cursor: pointer;
-}
-
-.top-bar {
-  max-width: 800px;
-  margin: 0 auto 20px auto;
+/* HEADER CARD */
+.card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.btn-logout {
-  background-color: #6c757d;
+.card-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #111827;
 }
 
-.btn-logout:hover {
-  background-color: #5a6268;
+/* INFO */
+.card-body {
+  margin-top: 10px;
+  color: #4b5563;
+  font-size: 14px;
+}
+
+/* PROPRIEDADES */
+.propriedade-item {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.propriedade-item:hover {
+  background: #f1f5f9;
+}
+
+/* TEXTO */
+.propriedade-info {
+  display: flex;
+  flex-direction: column;
+}
+
+/* BOTÕES LADO A LADO */
+.btn-group {
+  display: flex;
+  gap: 6px;
+}
+
+/* MODAL */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+  background: white;
+  margin: 5% auto;
+  padding: 25px;
+  width: 400px;
+  border-radius: 16px;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-content input,
+.modal-content textarea {
+  width: 100%;
+  margin-top: 8px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.close {
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    width: 32px;
+    height: 32px;
+    background-color: #f3f4f6; /* Cinza bem clarinho */
+    color: #6b7280;
+    border-radius: 50%; /* Faz o círculo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.close:hover {
+    background-color: #fee2e2; /* Fundo vermelho clarinho */
+    color: #ef4444; /* Ícone vermelho */
+    transform: rotate(90deg); /* Efeito de giro opcional */
+}
+
+@media (max-width: 600px) {
+
+  .top-bar {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .filtro {
+    flex-direction: column;
+  }
+
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .btn-group {
+    flex-wrap: wrap;
+  }
+
+.modal-content {
+    position: relative; /* ESSENCIAL para o botão não fugir */
+    background: white;
+    margin: 5% auto;
+    padding: 25px;
+    width: 90%; /* Responsivo */
+    max-width: 450px; /* Limita o tamanho em telas grandes */
+    border-radius: 16px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
 }
 
 .logo-container {
   text-align: center;
-  margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .logo-container img {
-  max-width: 120px;
+  width: 120px;
+  height: auto;
+  object-fit: contain;
+  background: transparent;
+  border-radius: 10px;
 }
 
-.filtro {
-  max-width: 800px;
-  margin: 0 auto 15px auto;
+.login-container {
   display: flex;
-  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
-.filtro input {
-  flex: 1;
-  padding: 8px;
-  border-radius: 6px;
+.login-box {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 320px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  text-align: center;
+}
+
+.login-box h2 {
+  margin-bottom: 20px;
+  color: #2f855a;
+}
+
+.login-box input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
   border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+}
+
+.login-box input:focus {
+  border-color: #2f855a;
+}
+
+.login-box button {
+  width: 100%;
+  padding: 10px;
+  background: #2f855a;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.login-box button:hover {
+  background: #276749;
+}
+
+@media (max-width: 600px) {
+  .login-box {
+    width: 90%;
+  }
 }

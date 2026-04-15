@@ -8,14 +8,14 @@
 <body>
 
 <div class="logo-container">
-  <img src="img/logo.png" alt="Logo">
+  <img src="./img/logo.jpeg" alt="Logo">
 </div>
 
-  <h2>🌾 Sistema de Produtores</h2>
+<h2>🌾 Sistema de Produtores</h2>
 
 <div class="top-bar">
-  <button onclick="abrirModalCreate()">+ Novo Produtor</button>
-  <button onclick="logout()" class="btn-logout">Sair</button>
+<button class="btn-primary" onclick="abrirModalCreate()">+ Novo Produtor</button>
+<button class="btn-dark" onclick="logout()">Sair</button>
 </div>
 
 <div class="filtro">
@@ -23,40 +23,35 @@
   <input type="text" id="filtroCidade" placeholder="Buscar por cidade">
 </div>
 
-  <ul id="lista"></ul>
+<ul id="lista"></ul>
 
-  <!-- 🔍 MODAL DETALHES -->
-  <div id="modal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="fecharModal()">&times;</span>
-      <div id="modalBody"></div>
-    </div>
+<!-- DETALHES -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="fecharModal()">&times;</span>
+    <div id="modalBody"></div>
   </div>
+</div>
 
-  <!-- ✏️ MODAL EDITAR -->
-  <div id="modalEdit" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="fecharModalEdit()">&times;</span>
+<!-- EDITAR PRODUTOR -->
+<div id="modalEdit" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="fecharModalEdit()">&times;</span>
 
-      <h3>Editar Produtor</h3>
+    <h3>Editar Produtor</h3>
 
-      <form id="formEdit">
-        <input type="text" id="editNome" placeholder="Nome"><br><br>
-        <input type="text" id="editPropriedade" placeholder="Propriedade"><br><br>
-        <input type="text" id="editCidade" placeholder="Cidade"><br><br>
-        <input type="text" id="editEstado" placeholder="Estado"><br><br>
-        <input type="text" id="editCultura" placeholder="Cultura"><br><br>
-        <input type="number" id="editArea" placeholder="Área"><br><br>
-        <input type="text" id="editTelefone" placeholder="Telefone"><br><br>
-        <input type="email" id="editEmail" placeholder="Email"><br><br>
-        <textarea id="editObs" placeholder="Observações"></textarea><br><br>
+    <form id="formEdit">
+      <input type="text" id="editNome"><br><br>
+      <input type="text" id="editCidade"><br><br>
+      <input type="text" id="editEstado"><br><br>
+      <input type="text" id="editTelefone"><br><br>
+      <input type="email" id="editEmail"><br><br>
 
-        <button type="submit">Salvar</button>
-      </form>
-
-    </div>
+      <button type="submit">Salvar</button>
+    </form>
   </div>
-  <!-- ➕ MODAL CRIAR -->
+</div>
+
 <div id="modalCreate" class="modal">
   <div class="modal-content">
     <span class="close" onclick="fecharModalCreate()">&times;</span>
@@ -64,24 +59,68 @@
     <h3>Novo Produtor</h3>
 
     <form id="formCreate">
-      <input type="text" id="createNome" placeholder="Nome"><br><br>
-      <input type="text" id="createPropriedade" placeholder="Propriedade"><br><br>
-      <input type="text" id="createCidade" placeholder="Cidade"><br><br>
-      <input type="text" id="createEstado" placeholder="Estado"><br><br>
-      <input type="text" id="createCultura" placeholder="Cultura"><br><br>
-      <input type="number" id="createArea" placeholder="Área"><br><br>
-      <input type="text" id="createTelefone" placeholder="Telefone"><br><br>
+      
+      <input type="text" id="createNome" placeholder="Nome do Produtor" required><br><br>
+
+      <input type="text" id="createCidade" placeholder="Cidade" required><br><br>
+
+      <input type="text" id="createEstado" placeholder="Estado (UF)" required><br><br>
+
+      <input type="text" id="createTelefone" placeholder="Telefone" maxlength="15"><br><br>
+
       <input type="email" id="createEmail" placeholder="Email"><br><br>
-      <textarea id="createObs" placeholder="Observações"></textarea><br><br>
 
       <button type="submit">Cadastrar</button>
     </form>
-
   </div>
 </div>
 
+<div id="modalPropriedade" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="fecharModalPropriedade()">&times;</span>
 
-  <script src="js/dashboard.js"></script>
+    <h3>Nova Propriedade</h3>
+
+    <form id="formPropriedade">
+
+      <input type="text" id="propNome" placeholder="Nome da Propriedade" required><br><br>
+
+      <input type="text" id="propCidade" placeholder="Cidade da Propriedade" required><br><br>
+
+      <input type="text" id="propEstado" placeholder="Estado (UF)" required><br><br>
+
+      <input type="number" id="propArea" placeholder="Tamanho da Área (hectares)" required><br><br>
+
+      <input type="text" id="propCultura" placeholder="Cultura Principal (ex: soja, milho)" required><br><br>
+
+      <textarea id="propObs" placeholder="Observações (opcional)"></textarea><br><br>
+
+      <button type="submit">Cadastrar</button>
+    </form>
+  </div>
+</div>
+
+<!-- EDITAR PROPRIEDADE -->
+<div id="modalEditProp" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="fecharModalEditProp()">&times;</span>
+
+    <h3>Editar Propriedade</h3>
+
+    <form id="formEditProp">
+      <input type="text" id="editPropNome"><br><br>
+      <input type="text" id="editPropCidade"><br><br>
+      <input type="text" id="editPropEstado"><br><br>
+      <input type="number" id="editPropArea"><br><br>
+      <input type="text" id="editPropCultura"><br><br>
+      <textarea id="editPropObs"></textarea><br><br>
+
+      <button type="submit">Salvar</button>
+    </form>
+  </div>
+</div>
+
+<script src="./js/dashboard.js"></script>
 
 </body>
 </html>

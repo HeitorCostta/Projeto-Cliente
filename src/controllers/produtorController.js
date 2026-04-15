@@ -1,114 +1,138 @@
-// controllers/produtorController.js
 const produtorModel = require("../models/produtorModel");
 
+// 🔍 GET ALL (COM PROPRIEDADES)
 async function getAll(req, res) {
   try {
-    const produtores = await produtorModel.getAll();
-   return res.status(200).json(produtores);;
+    const dados = await produtorModel.getAllComPropriedades();
+
+    const produtores = {};
+
+    dados.forEach(row => {
+      if (!produtores[row.produtor_id]) {
+        produtores[row.produtor_id] = {
+          id: row.produtor_id,
+          nome: row.nomeprodutor,
+          endereco: row.endereco,
+          cidade: row.produtor_cidade,
+          estado: row.produtor_estado,
+          telefone: row.telefone,
+          email: row.email,
+          dataCadastro: row.datacadastro,
+          propriedades: []
+        };
+      }
+
+      if (row.propriedade_id) {
+        produtores[row.produtor_id].propriedades.push({
+          id: row.propriedade_id,
+          nome: row.nomepropriedade,
+          cidade: row.propriedade_cidade,
+          estado: row.propriedade_estado,
+          tamanhoArea: row.tamanhoarea,
+          cultura: row.culturaprincipal,
+          observacoes: row.observacoes
+        });
+      }
+    });
+
+    return res.json(Object.values(produtores));
+
   } catch (error) {
     console.error(error);
     return res.status(500).json({ mensagem: "Erro ao listar produtores" });
   }
 }
 
+// 🔍 GET BY ID
 async function getById(req, res) {
   try {
     const { id } = req.params;
+
     const produtor = await produtorModel.getById(id);
 
     if (!produtor) {
       return res.status(404).json({ mensagem: "Produtor não encontrado" });
     }
 
-    return res.status(200).json(produtor);
+    return res.json(produtor);
+
   } catch (error) {
     console.error(error);
     return res.status(500).json({ mensagem: "Erro ao buscar produtor" });
   }
 }
 
+// ✅ CREATE (AGORA SÓ PRODUTOR)
 async function create(req, res) {
   try {
     const {
       nomeProdutor,
-      nomePropriedade,
       endereco,
       cidade,
       estado,
       telefone,
-      email,
-      tamanhoArea,
-      culturaPrincipal,
-      observacoes
+      email
     } = req.body;
 
-    // validação simples
-    if (!nomeProdutor || !nomePropriedade || !cidade || !estado || !tamanhoArea || !culturaPrincipal) {
-      return res.status(400).json({ mensagem: "Campos obrigatórios não informados" });
-    }
-
-    if (isNaN(tamanhoArea)) {
-      return res.status(400).json({ mensagem: "Tamanho da área deve ser numérico" });
+    if (!nomeProdutor || !cidade || !estado) {
+      return res.status(400).json({
+        mensagem: "Campos obrigatórios não informados"
+      });
     }
 
     const novoProdutor = await produtorModel.create({
       nomeProdutor,
-      nomePropriedade,
       endereco,
       cidade,
       estado,
       telefone,
-      email,
-      tamanhoArea: Number(tamanhoArea),
-      culturaPrincipal,
-      observacoes
+      email
     });
 
     return res.status(201).json(novoProdutor);
+
   } catch (error) {
     console.error(error);
     return res.status(500).json({ mensagem: "Erro ao criar produtor" });
   }
 }
 
+// ✏️ UPDATE
 async function update(req, res) {
   try {
     const { id } = req.params;
 
     const produtorExistente = await produtorModel.getById(id);
+
     if (!produtorExistente) {
       return res.status(404).json({ mensagem: "Produtor não encontrado" });
     }
 
-    // impedir alteração de campos protegidos
-    if (req.body.id || req.body.dataCadastro) {
-      return res.status(400).json({ 
-        mensagem: "Não é permitido alterar ID ou data de cadastro" 
-      });
-    }
-
-    if (req.body.tamanhoArea !== undefined && isNaN(req.body.tamanhoArea)) {
-      return res.status(400).json({ mensagem: "Tamanho da área deve ser numérico" });
-    }
-
     const atualizado = await produtorModel.update(id, req.body);
-    return res.status(200).json(atualizado);
+
+    return res.json(atualizado);
+
   } catch (error) {
     console.error(error);
     return res.status(500).json({ mensagem: "Erro ao atualizar produtor" });
   }
 }
 
+// ❌ DELETE
 async function remove(req, res) {
   try {
     const { id } = req.params;
+
     const produtorExistente = await produtorModel.getById(id);
+
     if (!produtorExistente) {
       return res.status(404).json({ mensagem: "Produtor não encontrado" });
     }
 
     await produtorModel.remove(id);
+
     return res.status(204).send();
+
   } catch (error) {
     console.error(error);
     return res.status(500).json({ mensagem: "Erro ao deletar produtor" });
