@@ -7,7 +7,11 @@ const propriedadeRoutes = require("./src/routes/propriedadeRoutes");
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: "*", // Permite que qualquer lugar (Vercel, Local, etc) acesse sua API
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
 app.use(express.json());
 app.use("/auth", authRoutes);
 app.use("/produtores", produtorRoutes);
