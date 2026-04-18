@@ -8,7 +8,7 @@
     { "src": "img/**", "use": "@vercel/static" }
   ],
   "rewrites": [
-    { "source": "/auth/(.*)", "destination": "server.js" },
+    { "source": "/auth/login(.*)", "destination": "server.js" },
     { "source": "/produtores/(.*)", "destination": "server.js" },
     { "source": "/propriedades/(.*)", "destination": "server.js" }
   ]
