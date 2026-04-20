@@ -98,7 +98,7 @@ function abrirModalPropriedade(id) {
 }
 
 async function carregarProdutores() {
-  const res = await fetch("http://localhost:3000/produtores", {
+  const res = await fetch("https://projeto-cliente-production.up.railway.app/produtores", {
     headers: { Authorization: "Bearer " + token }
   });
   dataGlobal = await res.json();
@@ -211,7 +211,7 @@ function verDetalhesPropriedade(id) {
 // Operações de CRUD (Create, Delete, Update) permanecem com sua lógica original
 formCreate.onsubmit = async e => {
   e.preventDefault();
-  await fetch("http://localhost:3000/produtores", {
+  await fetch("https://projeto-cliente-production.up.railway.app/produtores", {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
     body: JSON.stringify({
@@ -228,7 +228,7 @@ formCreate.onsubmit = async e => {
 
 async function deletarProdutor(id) {
   if (!confirm("Tem certeza que deseja excluir o produtor?")) return;
-  await fetch(`http://localhost:3000/produtores/${id}`, {
+  await fetch(`https://projeto-cliente-production.up.railway.app/produtores${id}`, {
     method: "DELETE",
     headers: { Authorization: "Bearer " + token }
   });
@@ -248,7 +248,7 @@ function editarProdutor(id) {
 
 formEdit.onsubmit = async e => {
   e.preventDefault();
-  await fetch(`http://localhost:3000/produtores/${produtorEditandoId}`, {
+  await fetch(`https://projeto-cliente-production.up.railway.app/produtores/${produtorEditandoId}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
     body: JSON.stringify({
@@ -265,7 +265,7 @@ formEdit.onsubmit = async e => {
 
 formPropriedade.onsubmit = async e => {
   e.preventDefault();
-  await fetch("http://localhost:3000/propriedades", {
+  await fetch("https://projeto-cliente-production.up.railway.app/propriedades", {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
     body: JSON.stringify({
@@ -284,7 +284,7 @@ formPropriedade.onsubmit = async e => {
 
 async function deletarPropriedade(id) {
   if (!confirm("Excluir esta propriedade?")) return;
-  await fetch(`http://localhost:3000/propriedades/${id}`, {
+  await fetch(`https://projeto-cliente-production.up.railway.app/propriedades/${id}`, {
     method: "DELETE",
     headers: { Authorization: "Bearer " + token }
   });
@@ -309,7 +309,7 @@ function editarPropriedade(id) {
 
 formEditProp.onsubmit = async e => {
   e.preventDefault();
-  await fetch(`http://localhost:3000/propriedades/${propriedadeEditandoId}`, {
+  await fetch(`https://projeto-cliente-production.up.railway.app/propriedades/${propriedadeEditandoId}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
     body: JSON.stringify({
