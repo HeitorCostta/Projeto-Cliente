@@ -1,11 +1,13 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
+
 const produtorRoutes = require("./src/routes/produtorRoutes");
 const authRoutes = require("./src/routes/authRoutes");
 const propriedadeRoutes = require("./src/routes/propriedadeRoutes");
 
 const app = express();
+
 
 const allowedOrigins = [
   "http://localhost:5500",
@@ -15,16 +17,29 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
+    
+    if (!origin) return callback(null, true);
+
+    
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
     }
+
+    
+    if (origin.includes("vercel.app")) {
+      return callback(null, true);
+    }
+
+    
+    return callback(new Error("Not allowed by CORS"));
   },
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
+
 app.use(express.json());
+
+
 app.use("/auth", authRoutes);
 app.use("/produtores", produtorRoutes);
 app.use("/propriedades", propriedadeRoutes);
