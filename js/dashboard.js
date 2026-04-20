@@ -3,7 +3,7 @@ const token = localStorage.getItem("token");
 const filtroNome = document.getElementById("filtroNome");
 const filtroCidade = document.getElementById("filtroCidade");
 
-const API_URL = "https://agroferreira-production.up.railway.app";
+const API_URL = "https://projeto-cliente-production.up.railway.app";
 
 // Modais
 const modal = document.getElementById("modal");
