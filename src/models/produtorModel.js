@@ -40,7 +40,7 @@ async function getById(id) {
   return result.rows[0];
 }
 
-// 🔍 BUSCAR POR NOME (temporário - depois podemos melhorar)
+// 🔍 BUSCAR POR NOME
 async function findByNome(nome) {
   const result = await pool.query(
     "SELECT * FROM produtores WHERE nomeprodutor = $1",
@@ -49,7 +49,7 @@ async function findByNome(nome) {
   return result.rows[0];
 }
 
-// ✅ CREATE (AGORA SÓ PRODUTOR)
+// ✅ CREATE
 async function create(produtor) {
   const {
     nomeProdutor,

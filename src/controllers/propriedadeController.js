@@ -29,7 +29,7 @@ async function getById(req, res) {
   }
 }
 
-// 🔥 CREATE (AGORA TEMOS!)
+// 🔥 CREATE
 async function create(req, res) {
   try {
     const {

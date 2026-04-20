@@ -1,4 +1,4 @@
-// routes/produtorRoutes.js
+
 const express = require("express");
 const router = express.Router();
 const produtorController = require("../controllers/produtorController");

@@ -62,7 +62,7 @@ async function getById(req, res) {
   }
 }
 
-// ✅ CREATE (AGORA SÓ PRODUTOR)
+// ✅ CREATE
 async function create(req, res) {
   try {
     const {

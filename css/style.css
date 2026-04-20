@@ -175,9 +175,9 @@ button:hover {
     top: 12px;
     width: 32px;
     height: 32px;
-    background-color: #f3f4f6; /* Cinza bem clarinho */
+    background-color: #f3f4f6; 
     color: #6b7280;
-    border-radius: 50%; /* Faz o círculo */
+    border-radius: 50%; 
     display: flex;
     align-items: center;
     justify-content: center;
@@ -189,9 +189,9 @@ button:hover {
 }
 
 .close:hover {
-    background-color: #fee2e2; /* Fundo vermelho clarinho */
-    color: #ef4444; /* Ícone vermelho */
-    transform: rotate(90deg); /* Efeito de giro opcional */
+    background-color: #fee2e2; 
+    color: #ef4444; 
+    transform: rotate(90deg); 
 }
 
 @media (max-width: 600px) {
@@ -216,12 +216,12 @@ button:hover {
   }
 
 .modal-content {
-    position: relative; /* ESSENCIAL para o botão não fugir */
+    position: relative; 
     background: white;
     margin: 5% auto;
     padding: 25px;
-    width: 90%; /* Responsivo */
-    max-width: 450px; /* Limita o tamanho em telas grandes */
+    width: 90%; 
+    max-width: 450px; 
     border-radius: 16px;
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
