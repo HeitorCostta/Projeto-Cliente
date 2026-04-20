@@ -3,6 +3,8 @@ const token = localStorage.getItem("token");
 const filtroNome = document.getElementById("filtroNome");
 const filtroCidade = document.getElementById("filtroCidade");
 
+const API_URL = "https://agroferreira-production.up.railway.app";
+
 // Modais
 const modal = document.getElementById("modal");
 const modalBody = document.getElementById("modalBody");
@@ -17,21 +19,19 @@ const formEdit = document.getElementById("formEdit");
 const formPropriedade = document.getElementById("formPropriedade");
 const formEditProp = document.getElementById("formEditProp");
 
-// Inputs editar produtor
+// Inputs
 const editNome = document.getElementById("editNome");
 const editCidade = document.getElementById("editCidade");
 const editEstado = document.getElementById("editEstado");
 const editTelefone = document.getElementById("editTelefone");
 const editEmail = document.getElementById("editEmail");
 
-// Inputs criar produtor
 const createNome = document.getElementById("createNome");
 const createCidade = document.getElementById("createCidade");
 const createEstado = document.getElementById("createEstado");
 const createTelefone = document.getElementById("createTelefone");
 const createEmail = document.getElementById("createEmail");
 
-// Inputs propriedade
 const propNome = document.getElementById("propNome");
 const propCidade = document.getElementById("propCidade");
 const propEstado = document.getElementById("propEstado");
@@ -39,7 +39,6 @@ const propArea = document.getElementById("propArea");
 const propCultura = document.getElementById("propCultura");
 const propObs = document.getElementById("propObs");
 
-// Editar propriedade
 const editPropNome = document.getElementById("editPropNome");
 const editPropCidade = document.getElementById("editPropCidade");
 const editPropEstado = document.getElementById("editPropEstado");
@@ -52,11 +51,10 @@ let produtorSelecionadoId = null;
 let produtorEditandoId = null;
 let propriedadeEditandoId = null;
 
-// --- LÓGICA DE MÁSCARA DE TELEFONE ---
-
+// MÁSCARA TELEFONE
 function aplicarMascaraTelefone(input) {
   input.addEventListener("input", (e) => {
-    let value = e.target.value.replace(/\D/g, ""); // Remove tudo que não é número
+    let value = e.target.value.replace(/\D/g, "");
     if (value.length > 11) value = value.slice(0, 11);
 
     if (value.length > 10) {
@@ -68,56 +66,55 @@ function aplicarMascaraTelefone(input) {
     } else if (value.length > 0) {
       value = value.replace(/^(\d{0,2})/, "($1");
     }
+
     e.target.value = value;
   });
 }
 
-// Ativando as máscaras
 aplicarMascaraTelefone(createTelefone);
 aplicarMascaraTelefone(editTelefone);
-
-// --- RESTANTE DAS FUNÇÕES ---
 
 if (!token) window.location.href = "login.html";
 
 filtroNome.addEventListener("input", renderizarLista);
 filtroCidade.addEventListener("input", renderizarLista);
 
-function logout() {
-  localStorage.removeItem("token");
-  window.location.href = "login.html";
-}
-
-function abrirModalCreate() {
-  modalCreate.style.display = "block";
-}
-
-function abrirModalPropriedade(id) {
-  produtorSelecionadoId = id;
-  modalPropriedade.style.display = "block";
-}
-
+// CARREGAR PRODUTORES
 async function carregarProdutores() {
-  const res = await fetch("https://projeto-cliente-production.up.railway.app/produtores", {
-    headers: { Authorization: "Bearer " + token }
-  });
-  dataGlobal = await res.json();
-  renderizarLista();
+  lista.innerHTML = "<p>Carregando...</p>";
+
+  try {
+    const res = await fetch(`${API_URL}/produtores`, {
+      headers: { Authorization: "Bearer " + token }
+    });
+
+    if (!res.ok) throw new Error();
+
+    dataGlobal = await res.json();
+    renderizarLista();
+
+  } catch (error) {
+    console.error(error);
+    lista.innerHTML = "<p>Erro ao carregar produtores</p>";
+  }
 }
 
+// RENDER
 function renderizarLista() {
   lista.innerHTML = "";
+
   const nomeFiltro = filtroNome.value.toLowerCase();
   const cidadeFiltro = filtroCidade.value.toLowerCase();
 
   const filtrados = dataGlobal.filter(produtor => {
-    const nome = produtor.nome ? produtor.nome.toLowerCase() : "";
-    const cidade = produtor.cidade ? produtor.cidade.toLowerCase() : "";
+    const nome = produtor.nome?.toLowerCase() || "";
+    const cidade = produtor.cidade?.toLowerCase() || "";
     return nome.includes(nomeFiltro) && cidade.includes(cidadeFiltro);
   });
 
   filtrados.forEach(produtor => {
     let propriedadesHTML = "";
+
     produtor.propriedades.forEach(prop => {
       propriedadesHTML += `
         <div class="propriedade-item">
@@ -126,9 +123,9 @@ function renderizarLista() {
             <small>📍 ${prop.cidade} - ${prop.estado}</small>
           </div>
           <div class="btn-group">
-            <button class="btn-primary" onclick="verDetalhesPropriedade(${prop.id})">Ver</button>
-            <button class="btn-warning" onclick="editarPropriedade(${prop.id})">Editar</button>
-            <button class="btn-danger" onclick="deletarPropriedade(${prop.id})">Excluir</button>
+            <button onclick="verDetalhesPropriedade(${prop.id})">Ver</button>
+            <button onclick="editarPropriedade(${prop.id})">Editar</button>
+            <button onclick="deletarPropriedade(${prop.id})">Excluir</button>
           </div>
         </div>
       `;
@@ -139,12 +136,13 @@ function renderizarLista() {
         <div class="card-header">
           <h3>${produtor.nome}</h3>
           <div class="btn-group">
-            <button class="btn-primary" onclick="verDetalhes(${produtor.id})">Ver</button>
-            <button class="btn-warning" onclick="editarProdutor(${produtor.id})">Editar</button>
-            <button class="btn-danger" onclick="deletarProdutor(${produtor.id})">Excluir</button>
-            <button class="btn-success" onclick="abrirModalPropriedade(${produtor.id})">+ Propriedade</button>
+            <button onclick="verDetalhes(${produtor.id})">Ver</button>
+            <button onclick="editarProdutor(${produtor.id})">Editar</button>
+            <button onclick="deletarProdutor(${produtor.id})">Excluir</button>
+            <button onclick="abrirModalPropriedade(${produtor.id})">+ Propriedade</button>
           </div>
         </div>
+
         <div class="card-body">
           <p>📍 ${produtor.cidade} - ${produtor.estado}</p>
           <p>📞 ${produtor.telefone || "-"}</p>
@@ -156,64 +154,47 @@ function renderizarLista() {
   });
 }
 
+// DETALHES
 function verDetalhes(id) {
   const produtor = dataGlobal.find(p => p.id === id);
-  let propsHTML = "";
 
+  let propsHTML = "";
   produtor.propriedades.forEach(prop => {
     propsHTML += `
-      <div style="background: #f3f4f6; padding: 10px; border-radius: 8px; margin-top: 10px;">
-        <strong>🏠 ${prop.nome}</strong><br>
-        <small>📍 ${prop.cidade} - ${prop.estado}</small><br>
-        <span>🌱 ${prop.cultura} | 📐 ${prop.tamanhoArea} ha</span><br>
-        <small>📝 ${prop.observacoes || "-"}</small>
-      </div>
+      <p>${prop.nome} - ${prop.cidade}</p>
     `;
   });
 
   modalBody.innerHTML = `
-    <h2 style="margin-bottom: 5px;">${produtor.nome}</h2>
-    <p style="margin: 2px 0;">📍 ${produtor.cidade} - ${produtor.estado}</p>
-    <p style="margin: 2px 0;">📞 ${produtor.telefone || "-"}</p>
-    <p style="margin: 2px 0;">📧 ${produtor.email || "-"}</p>
-    <p style="font-size: 12px; color: #6b7280;">🗓️ Cadastro: ${formatarData(produtor.dataCadastro)}</p>
-    <h4 style="margin-top: 20px; border-bottom: 1px solid #ddd;">Propriedades</h4>
-    ${propsHTML || "<p>Nenhuma propriedade vinculada.</p>"}
+    <h2>${produtor.nome}</h2>
+    <p>${produtor.cidade}</p>
+    <p>${produtor.telefone || "-"}</p>
+    <p>Cadastro: ${formatarData(produtor.dataCadastro)}</p>
+    ${propsHTML}
   `;
+
   modal.style.display = "block";
 }
 
+//  DATA
 function formatarData(data) {
   if (!data) return "-";
   const d = new Date(data);
-  return d.toLocaleDateString("pt-BR") + " " + d.toLocaleTimeString("pt-BR", { hour: '2-digit', minute: '2-digit' });
+  return d.toLocaleDateString("pt-BR") + " " + d.toLocaleTimeString("pt-BR");
 }
 
-function verDetalhesPropriedade(id) {
-  let propSelecionada;
-  dataGlobal.forEach(produtor => {
-    const prop = produtor.propriedades.find(p => p.id === id);
-    if (prop) propSelecionada = prop;
-  });
-
-  if (!propSelecionada) return;
-
-  modalBody.innerHTML = `
-    <h2>${propSelecionada.nome}</h2>
-    <p>📍 ${propSelecionada.cidade} - ${propSelecionada.estado}</p>
-    <p>🌱 Cultura: ${propSelecionada.cultura}</p>
-    <p>📐 Área: ${propSelecionada.tamanhoArea} ha</p>
-    <p>📝 Obs: ${propSelecionada.observacoes || "-"}</p>
-  `;
-  modal.style.display = "block";
-}
-
-// Operações de CRUD (Create, Delete, Update) permanecem com sua lógica original
+//  CREATE PRODUTOR
 formCreate.onsubmit = async e => {
   e.preventDefault();
-  await fetch("https://projeto-cliente-production.up.railway.app/produtores", {
+
+  if (!createNome.value) return alert("Nome obrigatório");
+
+  await fetch(`${API_URL}/produtores`, {
     method: "POST",
-    headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token
+    },
     body: JSON.stringify({
       nomeProdutor: createNome.value,
       cidade: createCidade.value,
@@ -222,35 +203,47 @@ formCreate.onsubmit = async e => {
       email: createEmail.value
     })
   });
+
   fecharModalCreate();
   carregarProdutores();
 };
 
+//  DELETE PRODUTOR
 async function deletarProdutor(id) {
-  if (!confirm("Tem certeza que deseja excluir o produtor?")) return;
-  await fetch(`https://projeto-cliente-production.up.railway.app/produtores${id}`, {
+  if (!confirm("Excluir produtor?")) return;
+
+  await fetch(`${API_URL}/produtores/${id}`, {
     method: "DELETE",
     headers: { Authorization: "Bearer " + token }
   });
+
   carregarProdutores();
 }
 
+//  EDITAR PRODUTOR
 function editarProdutor(id) {
   const produtor = dataGlobal.find(p => p.id === id);
+
   produtorEditandoId = id;
+
   editNome.value = produtor.nome;
   editCidade.value = produtor.cidade;
   editEstado.value = produtor.estado;
   editTelefone.value = produtor.telefone || "";
   editEmail.value = produtor.email || "";
+
   modalEdit.style.display = "block";
 }
 
 formEdit.onsubmit = async e => {
   e.preventDefault();
-  await fetch(`https://projeto-cliente-production.up.railway.app/produtores/${produtorEditandoId}`, {
+
+  await fetch(`${API_URL}/produtores/${produtorEditandoId}`, {
     method: "PUT",
-    headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token
+    },
     body: JSON.stringify({
       nomeProdutor: editNome.value,
       cidade: editCidade.value,
@@ -259,15 +252,26 @@ formEdit.onsubmit = async e => {
       email: editEmail.value
     })
   });
+
   fecharModalEdit();
   carregarProdutores();
 };
 
+//  PROPRIEDADE
+function abrirModalPropriedade(id) {
+  produtorSelecionadoId = id;
+  modalPropriedade.style.display = "block";
+}
+
 formPropriedade.onsubmit = async e => {
   e.preventDefault();
-  await fetch("https://projeto-cliente-production.up.railway.app/propriedades", {
+
+  await fetch(`${API_URL}/propriedades`, {
     method: "POST",
-    headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token
+    },
     body: JSON.stringify({
       produtor_id: produtorSelecionadoId,
       nomePropriedade: propNome.value,
@@ -278,40 +282,53 @@ formPropriedade.onsubmit = async e => {
       observacoes: propObs.value
     })
   });
+
   fecharModalPropriedade();
   carregarProdutores();
 };
 
+// DELETE PROPRIEDADE
 async function deletarPropriedade(id) {
-  if (!confirm("Excluir esta propriedade?")) return;
-  await fetch(`https://projeto-cliente-production.up.railway.app/propriedades/${id}`, {
+  if (!confirm("Excluir propriedade?")) return;
+
+  await fetch(`${API_URL}/propriedades/${id}`, {
     method: "DELETE",
     headers: { Authorization: "Bearer " + token }
   });
+
   carregarProdutores();
 }
 
+// ✏️ EDITAR PROPRIEDADE
 function editarPropriedade(id) {
   let propSelecionada;
+
   dataGlobal.forEach(produtor => {
     const prop = produtor.propriedades.find(p => p.id === id);
     if (prop) propSelecionada = prop;
   });
+
   propriedadeEditandoId = id;
+
   editPropNome.value = propSelecionada.nome;
   editPropCidade.value = propSelecionada.cidade;
   editPropEstado.value = propSelecionada.estado;
   editPropArea.value = propSelecionada.tamanhoArea;
   editPropCultura.value = propSelecionada.cultura;
   editPropObs.value = propSelecionada.observacoes || "";
+
   modalEditProp.style.display = "block";
 }
 
 formEditProp.onsubmit = async e => {
   e.preventDefault();
-  await fetch(`https://projeto-cliente-production.up.railway.app/propriedades/${propriedadeEditandoId}`, {
+
+  await fetch(`${API_URL}/propriedades/${propriedadeEditandoId}`, {
     method: "PUT",
-    headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token
+    },
     body: JSON.stringify({
       nomePropriedade: editPropNome.value,
       cidade: editPropCidade.value,
@@ -321,15 +338,23 @@ formEditProp.onsubmit = async e => {
       observacoes: editPropObs.value
     })
   });
+
   fecharModalEditProp();
   carregarProdutores();
 };
 
-// Funções de fechar modais
+// LOGOUT
+function logout() {
+  localStorage.removeItem("token");
+  window.location.href = "login.html";
+}
+
+// FECHAR MODAIS
 function fecharModal() { modal.style.display = "none"; }
 function fecharModalEdit() { modalEdit.style.display = "none"; }
 function fecharModalCreate() { modalCreate.style.display = "none"; }
 function fecharModalPropriedade() { modalPropriedade.style.display = "none"; }
 function fecharModalEditProp() { modalEditProp.style.display = "none"; }
+
 
 carregarProdutores();
