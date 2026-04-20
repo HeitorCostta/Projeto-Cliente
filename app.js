@@ -7,8 +7,20 @@ const propriedadeRoutes = require("./src/routes/propriedadeRoutes");
 
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:5500",
+  "http://127.0.0.1:5500",
+  "https://agroferreira.vercel.app"
+];
+
 app.use(cors({
-  origin: "https://projeto-cliente-ten.vercel.app", // Permite que qualquer lugar (Vercel, Local, etc) acesse sua API
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
